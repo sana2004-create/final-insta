@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- IMPORT SCRIPTS & STYLES -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+  
+     <script src="mainLogic.js"></script>
+     <!-- swiper -->
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+       <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+       <!-- icons -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=favorite,home,search,settings," rel="stylesheet" />
+         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&icon_names=favorite,home,search,settings" rel="stylesheet" />
+         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+     <style>
+     .icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .icons input {
+ display: inline-flex;
+ 
+  }
+
+  /* أيقونات عامة */
+  .icons label span {
+    font-size: 28px;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .icons label span:hover {
+    transform: scale(1.2);
+  }
+
+  /* قلب إنستا */
+  #like:checked + label span {
+    color: red;
+    transform: scale(1.4);
+    animation: pop 0.3s ease;
+  }
+
+  /* حفظ */
+  #save:checked + label span {
+    color: blue;
+    transform: scale(1.3);
+    animation: pop 0.3s ease;
+  }
+
+  /* مشاركة */
+  #share:checked + label span {
+    color: green;
+    transform: rotate(360deg) scale(1.2);
+    animation: pop 0.4s ease;
+  }
+
+  /* تعليق */
+  #comment:checked + label span {
+    color: orange;
+    transform: scale(1.3);
+    animation: pop 0.3s ease;
+  }
+
+  /* إرسال */
+  #send:checked + label span {
+    color: purple;
+    transform: translateY(-5px) scale(1.2);
+    animation: pop 0.3s ease;
+  }
+
+  @keyframes pop {
+    0%   { transform: scale(0.8); }
+    50%  { transform: scale(1.4); }
+    100% { transform: scale(1); }
+  }
+
+/* /// */
+    #iconsleft{
+      display: flex;
+     justify-content: space-around !important;
+    } 
+  .icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+  }
+
+  .left-icons {
+    display: flex;
+    gap: 15px; /* نفس التباعد تبع إنستا */
+    align-items: center;
+  }
+
+  .icons input {
+    display: none; /* نخفي الـ checkbox */
+  }
+
+
+
+
+  @keyframes insta-pop {
+    0%   { transform: scale(0.8); }
+    50%  { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+
+     #imgstore{
+      border: 1px red solid !important
+     }
+      .pulse {
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    font-variation-settings: 'wght' 100;
+  }
+  50% {
+    font-variation-settings: 'wght' 700;
+  }
+  100% {
+    font-variation-settings: 'wght' 100;
+  }
+}
+ body {
+      font-family: sans-serif;
+      background-color: #fff;
+      color: #000;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark {
+      background-color: #000;
+      color: #fff;
+    }
+   body.dark b, strong{
+     color: #000
+   }
+
+    .toggle-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      background: #f0f0f0;
+      transition: background 0.3s ease;
+    }
+
+    body.dark .toggle-btn {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    .posts {
+      margin-top: 20px;
+    }
+
+    .post {
+      padding: 15px;
+      margin: 10px;
+      border-radius: 12px;
+      background: #f6f6f6;
+      transition: background 0.3s ease;
+    }
+
+    body.dark .post {
+      background: #1e1e1e;
+    }
+  
+    #add-btn{
+      position: fixed;
+      align-items: center;
+      bottom: 1% !important;
+      right:5% !important;
+
+      height: 120px; 
+       font-size: 50px;
+       border-radius: 0px;
+       cursor: pointer;
+       text-align: center;
+       /* box-shadow: 0px 10px 10px rgba(0,0,0,0.3); */
+       padding: 0px 18px ;
+       margin: 0px auto;
+       z-index: 9999 ;
+       
+    }
+    #btn-nav-add{
+      display: flex;
+       justify-content: center;
+       align-items: center;
+       margin-left: 50%;
+       width: 40px;
+       height: 40px;
+       border-radius: 100%;
+    }
+    /* ====loader styles */
+    
+.lds-roller,
+.lds-roller div,
+.lds-roller div:after {
+  box-sizing: border-box;
+}
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7.2px;
+  height: 7.2px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: -3.6px 0 0 -3.6px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 62.62742px;
+  left: 62.62742px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 67.71281px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 70.90963px;
+  left: 48.28221px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 70.90963px;
+  left: 31.71779px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 67.71281px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 62.62742px;
+  left: 17.37258px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12.28719px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========loader styles */
+/* swipervstyle */
+.swiper-slide{
+  width: auto !important;
+  margin-right: 2px !important;
+
+}
+
+#img-story{
+  border-radius: 1px solid red !important;
+}
+#swiper-mySwiper{
+  
+  width: auto;
+  max-width: 978px !important;
+  margin: 0px auto;
+  margin-top: 3px
+}
+/* swipervstyle */
+/* stores bar */
+#storees-bar{
+  
+    margin: 0px auto;
+    width: 63%;
+    justify-content: space-between;
+    
+    position: relative;
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    z-index: 1;
+    display: block;
+
+} 
+/* icon posts */
+
+ 
+    .icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      font-size: 30px;
+    }
+
+    .left-icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .material-symbols-outlined {
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+      color: #333;
+      user-select: none;
+    }
+
+ 
+
+
+
+    /* fgfg */
+    #icons-div{
+     
+      width: 1350%;
+      margin: 0px auto;
+      direction: rtl;
+      justify-content: space-between;
+    }
+   
+   #success-alert{
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: auto;
+   }
+
+   
+
+
+</style>
+    </head>
+
+    <body>
+
+  <!-- LOADER -->
+   <div id="loader" style="position: fixed;
+      color: white;
+      background: rgba(204, 202, 202, 0.208);
+       top: 0px;
+       bottom: 0px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        width: 100px;
+        height: 100px;
+        border-radius: 12%;
+        ">
+      <div class="lds-roller">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+   </div>
+
+   <!-- == LIADER ==-->
+    <!-- DELILTE POST MODAL -->
+   <div class="modal fade" id="delete-post-modale" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="post-modale-title" >Are you sure you want to delete the post ? 
+            <span id="delete-post-title"></span> </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <input type="hidden" id="delete-post-id-input" value="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="post-modal-submet-btn" type="button" class="btn btn-outline-danger" onClick="ConfirmePostDelete()">delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- DELILTE POST MODAL -->
+  <!-- ADD POST BTN -->
+    <!-- <div class="bg-primary" id="add-btn" onclick="addBtnClick()">+</div> -->
+    <div class="container   " id="add-btn">
+      <div class="d-flex justify-content-center"  style="width: 100%;">
+           <div class="col-9" style="width: 60%;margin: 0px auto;">
+               <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded pt-3">
+                    <div class="container-fluid" >
+                      
+                     
+
+                   <div class="pulse"  style="width: 100%;display: flex;justify-content:space-evenly;align-items: center; font-size: 40px;margin:0px auto">
+                                 <!-- أيقونة الملف الشخصي (بدل الصورة) -->
+                       <span class="material-symbols-outlined" style="color: black;">
+                         <img src="./images/000.jpg" alt="" style="width: 40px;height: 40px;font-size: 40px;" class="rounded-circle border border-3" onclick="profileClicked()">
+                        </span>
+  
+                  <!-- أيقونة الفيديو (ريلز) -->
+                     <span class="material-symbols-outlined" style="color: black;font-size: 30px;">smart_display</span>
+  
+                     <!-- أيقونة الإضافة -->
+                    <span onclick="addBtnClick()"  type="button" class="material-symbols-outlined "  style="color: black;font-size: 30px;">add_circle</span>
+  
+                     <!-- أيقونة البحث -->
+                     <span class="material-symbols-outlined" style="color: black;font-size: 30px;">search</span>
+  
+                   <!-- أيقونة الهوم -->
+                     <span class="material-symbols-outlined" style="color: black;font-size: 30px;">home</span>
+                </div>
+
+                     </div>
+                        
+                        
+                        </div>
+                           <!-- FOR LOGEGED IN USER -->
+        
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+       
+        
+    </div>
+   <!-- ============ADD POST BTN -->
+    <!-- CREATE POST MODAL -->
+   <div class="modal fade" id="create-post-modale" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="post-modale-title" >Create a New Post</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Title</label>
+              <input type="text" class="form-control"  id="create-post-title-input">
+              <input type="hidden" id="post-id-input" value="${post.id}">
+            </div>
+             <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">image</label>
+              <input type="file" class="form-control"  id="create-post-image-input">
+            </div>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Body</label>
+              <textarea name="" id="create-post-body-input" style="width: 100%;height: 100px;color: gray;border-radius: 10px ;resize: none;"></textarea>
+              
+            </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button id="post-modal-submet-btn" type="button" class="btn btn-outline-danger" onClick="CreateNewPost()">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- ==CREATE POST MODAL -->
+  <!-- LOGIN modall -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel" >Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Username</label>
+              <input type="text" class="form-control"  id="username-input">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password</label>
+              <input type="password" class="form-control"  id="password-input">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-danger" onclick="loginbtnClicked()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- /// LOGIN modall -->
+    <!--  -->
+   <!-- Rege modal -->
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Regester A User</h1>
+        <button type="file" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          
+           <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">name:</label>
+            <input type="text" class="form-control" id="regester-name">
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Username:</label>
+            <input type="text" class="form-control" id="regester-username">
+          </div>
+           <div class="mb-3">
+            <label for="message-text" class="col-form-label">Password:</label>
+             <input type="password" class="form-control" id="regester-password">
+            
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Profile Image:</label>
+            <input type="file" class="form-control" id="regester-imginput">
+          </div>
+         
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" onclick="registerBtnClicked()">Regester</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- //Rege modal -->
+    <!--  -->
+    <!-- NAVICATION BAR -->
+    <div class="container ">
+        <div class="d-flex justify-content-center">
+            <div class="col-9">
+                <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded pt-3">
+                    <div class="container-fluid">
+                      <a class="navbar-brand" href="#"> Instgram</a>
+                      
+                        <button id="themeToggle" class="toggle-btn" onclick="mood()">☀</button>
+                           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                         
+                          <!-- <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link"  onclick="profileClicked()" style="cursor: pointer;">Profile</a>
+                          </li> -->
+                         
+                        </ul>
+                        <!-- NON LOGEGED IN USER -->
+                        <div class="d-flex w-100 justify-content-end " id="loginbtn-div
+">
+                        <button  id ="loginbtn" type="button" class="btn btn-outline-success mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal"  >Login</button>
+                        <button id="regestbtn" type="button" class="btn btn-success mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo"  >Regester</button>
+                        </div>
+                         <!--// NON LOGEGED IN USER -->
+
+                          <!-- FOR LOGEGED IN USER -->
+                            <div class="d-flex w-100 justify-content-end align-items-center" id="logOut-div">
+                            
+                              <img src="images/000.jpg" id="nav-user-img" alt="" class="rounded-circle" style="width: 40px;height: 40px;align-items:center;">
+                               <b id="nav-username"></b>
+                              <button  id ="logoutbtn" onclick="logOut()" type="button" class="btn btn-outline-danger mx-3"  >Log out</button>
+                        
+                        
+                        </div>
+                           <!-- FOR LOGEGED IN USER -->
+        
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+       
+        
+    </div>
+    <!--// NAVICATION BAR -->
+  <!-- - -->
+   <div  id="storees-bar" class="swiper mySwiper">
+           <div class="swiper-wrapper" id="swiper-mySwiper" >
+              
+                 <div  class="swiper-slide text-center">
+                     <img  id="img-story"  src="./images/000.jpg" alt="" style="width: 60px;height: 60px;" class="rounded-circle border border-1" /> 
+                   </div>
+                    <div  class="swiper-slide text-center">
+                     <img  id="img-story"  src="./images/000.jpg" alt="" style="width: 60px;height: 60px;" class="rounded-circle border border-1" /> 
+                   </div>
+                    <div  class="swiper-slide text-center">
+                     <img  id="img-story"  src="./images/000.jpg" alt="" style="width: 60px;height: 60px;" class="rounded-circle border border-1" /> 
+                   </div>
+   
+                </div>
+           </div>
+ 
+          
+     </div>
+    </div>
+   </div>
+  <!-- - -->
+    <!-- MAIN CONTAINT -->
+    <div class="container "   style="height: 1000px;">
+        <!-- POSTS -->
+        <div class="d-flex justify-content-center mt-3" >
+          <div class="col-9">
+            <div id="posts" >
+            <!-- POST -->
+          
+              <!-- //POST -->
+                  <!-- POST -->
+         <div class="card shadow my-2">
+              <div class="card-header">
+                <img src=${author.profile_image} alt="" style="width: 40px;height: 40px;" class="rounded-circle border border-3" >
+                <b>sanatayshoori</b>
+             
+              </div>
+              <div class="card-body">
+               <img src='images/000.jpg' alt="" class="w-100 " >
+               <p style="color: rgb(118, 118, 118);font-size: smaller;" class="mt-1">
+                    <div class="icons" id="icons-div">
+      <div class="left-icons" >
+        <!-- قلب -->
+      
+       
+          <span class="material-symbols-outlined" >favorite</span>
+ 
+
+        <!-- تعليق -->
+        <span class="material-symbols-outlined">chat_bubble</span>
+
+        <!-- مشاركة -->
+        <span class="material-symbols-outlined">cached</span>
+
+        <!-- إرسال -->
+        <span class="material-symbols-outlined">send</span>
+      </div>
+
+      <!-- حفظ -->
+      <input type="checkbox" id="save">
+      <label for="save">
+        <span class="material-symbols-outlined">bookmark</span>
+      </label>
+    </div>
+               <div style="display: flex;">
+                  <div style="width: 50%;margin-top: -4px;">
+                    <div style="float: left;width:15%;">
+                    <!-- bgbg -->
+   
+
+                     <!-- /// -->
+                  
+                    </div>
+                  </div>
+                  <hr>
+                 </div>
+                 <hr style="margin-top: -5px;">
+               </div>
+                <div style="float: right;width:100%;justify-content: end;display: flex;margin-top: -20px;font-size: smaller;">
+               <p> 2 min</p>
+              
+               </div>
+               <h3 style="margin-bottom: 20px;margin-top:-10px;"> hii</h3>
+               <p style="margin-top:-10px;">
+              Hello world
+               </p>
+               <p>
+              
+               </p>
+              
+                <div style="float: right;width:100%;justify-content: start;display: flex;font-size: smaller;">
+                   <p> dshhfewi</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                   </svg>
+                  <span id="btn-tags">
+                    
+                    <button class="btn btn-sm rounded-5" style="background-color:gray;color:white" >
+                   @sana.com
+                     </button>
+                     
+                     </span>
+                 
+                
+              </div>
+                   <hr>
+                     <p>hello world</p>
+              <div>
+              </div>
+              </div>
+                 <!-- POST -->
+           
+            <!-- //POST -->
+               <!-- POST -->
+            
+              <!-- //POST --> 
+             
+            </div>
+            
+            <!-- //POST -->
+                
+             
+               <!-- /////////// -->
+         </div>
+           
+         
+        </div>
+           
+
+         <div>
+         </div>
+      </div>
+      
+      
+         <!-- //POSTS -->
+          <!-- ///////////////////////// -->
+            <!-- /ALERTS -->
+   <div id="success-alert" class="show fade" style="position: fixed; z-index: 999999;width: 30%;bottom: 0;right: 0;"></div>
+    <!-- ////ALERTS -->
+    </div>
+    
+    <!--// MAIN CONTAINT -->
+
+  
+<script>
+  // mode
+  function mood(){
+      const btn = document.getElementById("themeToggle");
+    const body = document.body;
+
+    btn.addEventListener("click", () => {
+      body.classList.toggle("dark");
+      btn.textContent = body.classList.contains("dark") ? "🌙" : "☀";
+    });
+  }
+  // swiper var
+const swiper = new Swiper('.swiper', {
+  init: false,
+  // other parameters
+});
+swiper.on('init', function() {
+ // do something
+ 
+});
+// init Swiper
+swiper.init();
+
+
+   
+    //== swiper var
+    getStores()
+function getStores(page = 1,relode = true){
+ 
+
+  axios.get(`${basseUrl}/posts`)
+  .then((response)=>{
+     let posts = response.data.data ;
+        document.getElementById("swiper-mySwiper").innerHTML = ""
+      for(post of posts){
+    let author = post.author
+      let slide = `
+                  <div  class="swiper-slide text-center">
+                     <img  id="img-story" id="imgstore"  src="${author.profile_image}" alt="" style="width: 60px;height: 60px;" class="rounded-circle border border-1" /> 
+                   </div>
+      `
+     
+      document.getElementById("swiper-mySwiper").innerHTML += slide
+      
+       
+      }
+  
+  })
+  
+}
+
+   function CreateNewPost(){
+   
+    let postId= document.getElementById("post-id-input").value 
+  let isCreat = postId == null || postId == ""
+   let  title = document.getElementById("create-post-title-input").value
+   let  body = document.getElementById("create-post-body-input").value
+    let  image = document.getElementById("create-post-image-input").files[0]
+   let  token = localStorage.getItem("token")
+   
+   let formData = new FormData()
+   formData.append("body",body)
+   formData.append("title",title)
+    formData.append("image",image)
+       
+       let  url =``
+       let  headeres ={
+        // "Content-Type" : "multipart/form-data" ,
+        "authorization" : `Bearer ${token}` ,
+       }
+       if(isCreat){
+   
+        url = `${basseUrl}/posts`
+       }else{
+       
+        formData.append("_method","put")
+        url = `${basseUrl}/posts/${postId}`
+       }
+      
+ axios.post(url,formData ,{
+        
+        headers : headeres
+       })
+       .then((response)=>{
+
+         let  modal = document.getElementById("createpostmodal");     
+         let  modalIntance = bootstrap.Modal.getInstance(modal);
+         modalIntance.hide()
+         showAlertt("New Post Has en Created" ,"Success")
+         getPosts()
+    
+       
+      
+       })
+      // 
+       .catch((error)=>{
+        
+       
+        let  message = error.data.message
+        showAlertt(message,danger)
+    console.log("the error is", error);
+    
+   
+ })
+   .finally(()=>{
+    toggelloading(false)
+  })
+}
+    function setUpUi(){
+  
+    // let  username=localStorage.getItem("username")
+    let  token =localStorage.getItem("token")
+    // let  userName = document.getElementById("usernameloged")
+    let  loginbtn = document.getElementById("loginbtn")
+    let  regestbtn =document.getElementById("regestbtn")
+    let  logoutbtn =document.getElementById("logOut-div")
+    //  add btn
+    let  addbtn =document.getElementById("add-btn")
+      console.log(token)
+    if(token == null) //user is guest (not logged in)
+    {
+     loginbtn.style.visibility = "visible"
+     regestbtn.style.visibility = "visible"
+     logoutbtn.style.setProperty("display","none","important") 
+      addbtn.style.setProperty("display","none","important")
+   
+    }else{  //for loged in user
+     loginbtn.style.visibility = "hidden";
+     regestbtn.style.visibility = "hidden";
+    logoutbtn.style.setProperty("display","flex","important") 
+    addbtn.style.setProperty("display","flex","important")
+     
+     let  user = getcurrentUser()
+     document.getElementById("nav-username").innerHTML = user.username;
+     console.log('the user in setupui is',user)
+     document.getElementById("nav-user-img").src = user.profile_image;
+    //  
+   
+    }
+   }
+   function postClick(postId){
+    
+    window.location = `postsDetails.html?postId=${postId}`
+   }
+
+   window.addEventListener("scroll",function(){
+        let  endOfPage =  window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
+      
+       if(endOfPage  && currentPage < lastPage){
+        currentPage = currentPage + 1
+        getPosts(currentPage + 1,false)
+       }
+
+   })
+   
+function getPosts(page = 1,relode = true){
+     toggelloading(true)
+  axios.get(`${basseUrl}/posts?page=${page}&limit=2`)
+  .then(function (response) {
+  
+  let posts = response.data.data ;
+   lastPage = response.data.meta.last_page ;
+  
+  // this if for relod the post withot functionhilling
+  if(relode){
+     document.getElementById("posts").innerHTML ="" ;
+    }
+   let postTitle = ""
+  for(post of posts){
+    let author = post.author
+//  show or hide botton
+let user = getcurrentUser()
+let isMyPost = user != null && post.author.id === user.id
+
+ 
+let  editbuttonContent = ``
+
+if(isMyPost){
+ editbuttonContent = `
+    
+    <span class="material-symbols-outlined"   style="float:right;color:#90EE90;margin-left:15px" onClick="editpostBtnclick('${encodeURIComponent(JSON.stringify(post))}')">
+     stylus
+    </span>
+    <span class="material-symbols-outlined" style="float:right;color:#FF0000" onClick="DelitepostBtnclick('${encodeURIComponent(JSON.stringify(post))}')">
+     delete
+    </span>
+
+ `
+    }
+    if( post.title != null){
+      postTitle = post.title
+    }
+    let content = `
+      
+   <div class="card shadow my-2"  >
+              <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <span  style="cursor:pointer">
+                
+                <img src=${author.profile_image} onClick="userClicked(${author.id})"  alt="" style="width: 40px;height: 40px;" class="rounded-circle border border-3" >
+ 
+                 </span>
+                   ${editbuttonContent}
+              </div>
+              
+              <div class="card-body"  style="cursor: pointer">
+                 <img src=${post.image} alt=""  onClick ="postClick(${post.id})" style= "width:100%;heigh:10px" >
+                 
+              </div> 
+              <hr>              
+<div class="icons" id="icons-div" style="display: flex;width: 100%;">
+   <div id="iconsleft" style="float: right;width: 90%;" >
+      <input type="checkbox" id="like" >
+  <label for="like">
+    <span class="material-symbols-outlined">favorite</span>
+  </label>
+  <!-- مشاركة -->
+  <input type="checkbox" id="share">
+  <label for="share">
+    <span class="material-symbols-outlined">cached</span>
+  </label>
+    <!-- تعليق -->
+  <input type="checkbox" id="comment">
+  <label for="comment">
+    <span class="material-symbols-outlined">chat_bubble</span>
+  </label>
+  <!-- إرسال -->
+  <input type="checkbox" id="send">
+  <label for="send">
+    <span class="material-symbols-outlined">send</span>
+  </label>
+  </div>
+ 
+   <div  style="float: left;width: 100%;align-content:flex-end;display: flex;direction:ltr ;">
+      <!-- حفظ -->
+  <input type="checkbox" id="save">
+  <label for="save">
+    <span class="material-symbols-outlined">bookmark</span>
+  </label>
+</div>
+   </div>
+
+
+
+               <hr style="margin-top: -5px;">
+              
+                <div style="float: right;width:100%;justify-content: end;display: flex;margin-top: -20px;font-size: smaller;">
+                 <p> ${post.created_at}</p>
+              
+                </div>
+               <h3 style="margin-bottom: 20px;margin-top:-10px;"> ${postTitle}</h3>
+               <p style="margin-top:-10px;">
+               ${post.body}
+               </p>
+             
+              
+                <div style="float: right;width:100%;justify-content: start;display: flex;font-size: smaller;">
+                   <p> ${post.comments_count} coments</p>
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001m-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708z"/>
+                   </svg>
+                  <span id="btn-tags">
+                    
+                    <button class="btn btn-sm rounded-5" style="background-color:gray;color:white" >
+                    ${author.email}
+                     </button>
+                     
+                   </span>
+                 
+              </div>
+                
+         </div>
+   
+    
+    `
+    
+    
+    
+    
+    document.getElementById("posts").innerHTML+= content;
+     let  currentPostTagId = `btn-tags-${post.id}`
+      // document.getElementById(currentPostTagId).innerHTML = ""
+   console.log('the current is',currentPostTagId)
+    for (tag of post.tags){
+    
+      console.log(post.tags)
+      console.log('tag is',tag.name)
+      let tagontent = `
+
+                    <button class="btn btn-sm rounded-5" style="background-color:gray;color:white" >
+                      ${tag.name}
+                     </button>
+                     
+      `
+       document.getElementById(currentPostTagId).innerHTML = tagontent ;
+     }
+  }
+  
+  })
+  .catch(function (error) {
+    // handle error 
+    console.log(error);
+  })
+  .finally(()=>{
+    toggelloading(false)
+  })
+
+  }
+
+
+
+
+  setUpUi()
+ 
+ 
+  getPosts()
+ 
+// logOut()
+
+// loginbtnClicked()
+// registerBtnClicked()
+showAlertt(customMessage,type)
+
+//   setUpUi()
+//  setUpUi()
+ getcurrentUser()
+
+function editpostBtnclick(postObjet){
+  let post = JSON.parse(decodeURIComponent(postObjet))
+  let postId= document.getElementById("post-id-input").value = post.id
+   document.getElementById("post-modal-submet-btn").innerHTML ="upDate"
+       document.getElementById("post-modale-title").innerHTML ="Edit post"
+       document.getElementById("create-post-title-input").value =post.title 
+         document.getElementById("create-post-body-input").value =post.body
+       let postModal = new bootstrap.Modal(document.getElementById("create-post-modale"),{})
+    postModal.toggle()
+}
+
+function DelitepostBtnclick(postObjet){
+  
+   let post = JSON.parse(decodeURIComponent(postObjet))
+   document.getElementById("delete-post-id-input").value= post.id
+  let postModal = new bootstrap.Modal(document.getElementById("delete-post-modale"),{})
+    postModal.toggle()
+     modalIntance.hide()
+         showAlertt("The Post Has Been Deleted Successfully " ,"Success")
+         getPosts()
+}
+ function ConfirmePostDelete(){
+let token =  localStorage.getItem("token")
+  let postId = document.getElementById("delete-post-id-input").value
+    
+   
+       let  headeres ={
+        //  "Content-Type" : "multipart/form-data" ,
+        "authorization" : `Bearer ${token}` ,
+       }
+     
+       axios.delete(`https://tarmeezacademy.com/api/v1/posts/${postId}`,{
+       
+        headers : headeres
+       })
+       .then((response)=>{
+         alert("heee")
+          let  modal = document.getElementById("delete-post-id-input");     
+         let  modalIntance = bootstrap.Modal.getInstance(modal);
+         modalIntance.hide()
+         showAlertt("The Post Has Been Deleted Successfully " ,"Success")
+         getPosts()
+         
+       })
+      // 
+       .catch((error)=>{
+    console.log("the error is", error);
+    if (error.response) {
+        console.log("Error response data:", error.response.data);
+       }
+}) 
+ .finally(()=>{
+    toggelloading(false)
+  })
+ }
+
+function addBtnClick(){
+     
+  let postId= document.getElementById("post-id-input").value =""
+   document.getElementById("post-modal-submet-btn").innerHTML ="Create"
+       document.getElementById("post-modale-title").innerHTML ="Create a new post"
+       document.getElementById("create-post-title-input").value =""
+         document.getElementById("create-post-body-input").value =""
+       let postModal = new bootstrap.Modal(document.getElementById("create-post-modale"),{})
+    postModal.toggle()  
+}
+profileClicked()
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

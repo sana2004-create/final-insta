@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- IMPORT SCRIPTS & STYLES -->
+     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+     <script src="node_modules/axios/dist/axios.min.js"></script>
+     <script src="mainLogic.js"></script>
+     <!-- icons -->
+       <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+     <style>
+   body {
+      font-family: sans-serif;
+      background-color: #fff;
+      color: #000;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    body.dark {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .toggle-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      background: #f0f0f0;
+      transition: background 0.3s ease;
+    }
+
+    body.dark .toggle-btn {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+
+
+    body.dark .post {
+      background: #1e1e1e;
+    }
+    #add-btn{
+      position: fixed;
+      align-items: center;
+      bottom: 5%;
+      right:7%;
+      height: 70px;
+      width: 70px;
+       font-size: 50px;
+       color: white;
+       border-radius: 100px;
+       cursor: pointer;
+       text-align: center;
+       box-shadow: 0px 10px 10px rgba(0,0,0,0.3);
+       background-color: aqua;
+       padding: 0px 18px ;
+       
+    }
+    .number-info{
+      color: rgb(172, 172, 172);
+      font-weight: 100;
+    }
+    .number-info span{
+      font-size: 50px;
+      color: black;
+    }
+    .user-main-info{
+      font-weight: 500 ;
+      font-size:20px ;
+    }
+        /* ====loader styles */
+    
+.lds-roller,
+.lds-roller div,
+.lds-roller div:after {
+  box-sizing: border-box;
+}
+.lds-roller {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-roller div {
+  animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  transform-origin: 40px 40px;
+}
+.lds-roller div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  width: 7.2px;
+  height: 7.2px;
+  border-radius: 50%;
+  background: currentColor;
+  margin: -3.6px 0 0 -3.6px;
+}
+.lds-roller div:nth-child(1) {
+  animation-delay: -0.036s;
+}
+.lds-roller div:nth-child(1):after {
+  top: 62.62742px;
+  left: 62.62742px;
+}
+.lds-roller div:nth-child(2) {
+  animation-delay: -0.072s;
+}
+.lds-roller div:nth-child(2):after {
+  top: 67.71281px;
+  left: 56px;
+}
+.lds-roller div:nth-child(3) {
+  animation-delay: -0.108s;
+}
+.lds-roller div:nth-child(3):after {
+  top: 70.90963px;
+  left: 48.28221px;
+}
+.lds-roller div:nth-child(4) {
+  animation-delay: -0.144s;
+}
+.lds-roller div:nth-child(4):after {
+  top: 72px;
+  left: 40px;
+}
+.lds-roller div:nth-child(5) {
+  animation-delay: -0.18s;
+}
+.lds-roller div:nth-child(5):after {
+  top: 70.90963px;
+  left: 31.71779px;
+}
+.lds-roller div:nth-child(6) {
+  animation-delay: -0.216s;
+}
+.lds-roller div:nth-child(6):after {
+  top: 67.71281px;
+  left: 24px;
+}
+.lds-roller div:nth-child(7) {
+  animation-delay: -0.252s;
+}
+.lds-roller div:nth-child(7):after {
+  top: 62.62742px;
+  left: 17.37258px;
+}
+.lds-roller div:nth-child(8) {
+  animation-delay: -0.288s;
+}
+.lds-roller div:nth-child(8):after {
+  top: 56px;
+  left: 12.28719px;
+}
+@keyframes lds-roller {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========loader styles */
+
+    .icons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      font-size: 30px;
+    }
+
+    .left-icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .material-symbols-outlined {
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+      color: #333;
+      user-select: none;
+    }
+
+    .material-symbols-outlined:hover {
+      transform: scale(1.2);
+    }
+
+    /* ========== toggle effect بالقلب والحفظ ========== */
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    /* قلب */
+    #like:checked + label .material-symbols-outlined {
+      color: red;
+      transform: scale(1.2);
+    }
+
+    /* حفظ */
+    #save:checked + label .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1;
+      transform: scale(1.2);
+    }
+    /* fgfg */
+    #icons-div{
+   
+      width: 1350%;
+      margin: 0px auto;
+      direction: rtl;
+      justify-content: space-between;
+    }
+    #heart{
+      background: orange;
+    }
+</style>
+  </head>  
+    <body>
+      <input type="hidden" id="input-delete-post-id">
+
+   <!-- مودال الحذف -->
+<div class="modal fade" id="delete-post-modale" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">حذف البوست</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        هل أنت متأكد أنك تريد حذف هذا البوست؟
+        <input type="hidden" id="delete-post-id-input">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+        <button type="button" class="btn btn-danger" onclick="ConfirmePostDelete()">حذف</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- LOADER -->
+   <div class="loader" style="position: fixed;
+   color: white;
+       top: 0px;
+       bottom: 0px;
+        left: 0px;
+        right: 0px;
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        background: rgba(204, 202, 202, 0.208);
+        width: 100px;
+        height: 100px;
+        border-radius: 12%;
+        ">
+      <div class="lds-roller">
+        <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+   </div>
+<input type="hidden" id="delete-post-id-input">
+   <!-- == LIADER ==-->
+       <!-- LOGIN modall -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel" >Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="recipient-name" class="col-form-label">Username</label>
+              <input type="text" class="form-control"  id="username-input">
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Password</label>
+              <input type="password" class="form-control"  id="password-input">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-danger" onclick="loginbtnClicked()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- /// LOGIN modall -->
+       <!-- Rege modal -->
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Regester A User</h1>
+        <button type="file" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          
+           <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">name:</label>
+            <input type="text" class="form-control" id="regester-name">
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Username:</label>
+            <input type="text" class="form-control" id="regester-username">
+          </div>
+           <div class="mb-3">
+            <label for="message-text" class="col-form-label">Password:</label>
+             <input type="password" class="form-control" id="regester-password">
+            
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Profile Image:</label>
+            <input type="file" class="form-control" id="regester-imginput">
+          </div>
+         
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" onclick="registerBtnClicked()">Regester</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- //Rege modal -->
+    <!--  -->
+    <!-- NAVICATION BAR -->
+    <div class="container ">
+        <div class="d-flex justify-content-center">
+            <div class="col-9">
+                <nav class="navbar navbar-expand-lg bg-body-tertiary shadow rounded pt-3">
+                    <div class="container-fluid">
+                      <a class="navbar-brand" href="#"> Instgram</a>
+                       <button id="themeToggle" class="toggle-btn" onclick="mood()">☀</button>
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                          <li class="nav-item">
+                              <a class="nav-link"  onclick="profileClicked()" style="cursor: pointer;">
+                               <span class="material-symbols-outlined" style="color: black;font-size: 30px;">account_circle</span>
+
+                               </a>
+                           </li>
+                          <li class="nav-item">
+                              
+                            <a class="nav-link active pulse" aria-current="page" href="home.html">
+                               <span class="material-symbols-outlined" style="color: black;font-size: 30px;" >home</span>
+                              </a>
+                          </li>
+              
+                         
+                        </ul>
+                        <!-- NON LOGEGED IN USER -->
+                        <div class="d-flex w-100 justify-content-end " id="loginbtn-div
+">
+                        <button  id ="loginbtn" type="button" class="btn btn-outline-success mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal"  >Login</button>
+                        <button id="regestbtn" type="button" class="btn btn-success mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@mdo"  >Regester</button>
+                        </div>
+                         <!--// NON LOGEGED IN USER -->
+
+                          <!-- FOR LOGEGED IN USER -->
+                            <div class="d-flex w-100 justify-content-end align-items-center" id="logOut-div">
+                            
+                              <img src="images/000.jpg" id="nav-user-img" alt="" class="rounded-circle" style="width: 40px;height: 40px;align-items:center;">
+                               <b id="nav-username"></b>
+                              <button  id ="logoutbtn" onclick="logOut()" type="button" class="btn btn-outline-danger mx-3"  >Log out</button>
+                        
+                        
+                        </div>
+                           <!-- FOR LOGEGED IN USER -->
+        
+                      </div>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+       
+        
+    </div>
+    <!--// NAVICATION BAR -->
+  <!-- MAIN CONTAINT -->
+    <div class="container "   style="height: 1000px;">
+          <!--USRE'S  POSTS -->
+     
+        <!-- POSTS -->
+     <div class="d-flex justify-content-center mt-3" >
+       <div class="col-9">
+        <!-- MAIN INFO -->
+               <div class="card shadow my-2">
+                    <div class="card-body">
+                      <div class="row">
+                         <!-- user image -->
+                          <div class="col-2">
+                             <img id="header-image" src="./images/000.jpg" alt="" style="width:120px ; height: 120px;border-radius:200px !important ; "   />
+                          </div>
+                           <!-- //user image -->
+                            <!-- USERNAME - EMAIL-NAME -->
+                             <div class="col-4 d-flex flex-column justify-content-evenly" style="font-weight:900 ;">
+                              <div class="user-main-info" id="main-info-email">
+                                sana.919@gmail.com
+                              </div >
+                              <div class="user-main-info" id="main-info-name">
+                                Sana
+                              </div>
+                              <div class="user-main-info" id="main-info-username">
+                                sana19
+                              </div>
+                             </div>
+                              <!-- USERNAME - EMAIL-NAME -->
+                              <!-- POSTS & COMENTESCOUNET -->
+                                <div class="col-4 d-flex flex-column justify-content-evenly">
+                                  <div class="number-info" >
+                                    <span id="posts-count">13</span>Posts
+                                    
+                                  </div>
+                                    <div class="number-info" >
+                                    <span id="comments-count">20</span>Comments
+                                    
+                                  </div>
+                                </div>
+                               <!-- POSTS & COMENTESCOUNET -->
+
+                      </div>
+                    </div>
+               </div>
+         <div>
+          <div></div>
+              <!-- POST -->
+               <!-- post title -->
+               <div class="row mt-5" id="user-post-name">
+                <h1>Sana's post</h1>
+               </div>
+               <!--// post title -->
+         <div class="card shadow my-2" id="user-posts">
+           
+              </div>
+              </div>
+                 <!-- POST -->
+            </div>
+          <!-- MAIN INFO -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+       <!-- main contaont -->
+      <!-- ///////////////////////// -->
+       <!-- /ALERTS -->
+   <div id="success-alert" class="show fade" style="position: fixed; z-index: 999999;width: 30%;bottom: 0;right: 0;"></div>
+    <!-- ////ALERTS -->
+ <script>
+    // modez
+  function getcurrentuserId(){
+     var posturl = new URLSearchParams(window.location.search);
+     var id =posturl.get("userid");
+     console.log("id is",id)
+     return id 
+  }
+   
+   getUser()
+   getPosts()
+    setUpUi()
+
+//     function getPosts(){
+//       alert("popiuiui")
+//       var Id = getcurrentuserId()
+//       console.log("id in funn is",Id)
+//   axios.get(`https://tarmeezacademy.com/api/v1/users/${Id}/posts`)
+//   .then(function (response) {
+//    alert("true")
+//   let posts = response.data.data ;
+//   document.getElementById("user-posts").innerHTML = ""
+  
+ 
+//    let postTitle = ""
+//   for(post of posts){
+//     let author = post.author
+// //  show or hide botton
+// let user = getcurrentUser()
+// let isMyPost = user != null && user.id == Id
+// console.log("id in ismypost is",isMyPost,user.id,post.author.id,Id)
+// let editbuttonContent = ``;
+// if (isMyPost) {
+//   editbuttonContent = `
+//     <button class="btn btn-secondary" style="float:right" 
+//       onClick="editpostBtnclick('${encodeURIComponent(JSON.stringify(post))}'); event.stopPropagation();">
+//       Edit
+//     </button>
+//     <button class="btn btn-danger" style="float:right" 
+//       onClick="DelitepostBtnclick('${encodeURIComponent(JSON.stringify(post))}')event.stopPropagation();">
+//       Delete
+//     </button>
+//     `;
+// }
+  
+//     if( post.title != null){
+//       postTitle = post.title
+//     }
+    
+
+// let content = `
+// <div class="card shadow my-2">
+//   <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+//     <span onClick="userClicked(${author.id})" style="cursor:pointer; display:flex; align-items:center;">
+//       <img src=${author.profile_image} alt="" style="width: 40px;height: 40px;" class="rounded-circle border border-3">
+//       <b style="margin-left: 8px;">${author.username}</b>
+//     </span>
+
+//     ${isMyPost ? `
+//     <div>
+//       <button class="btn btn-secondary btn-sm" 
+//         onClick="editpostBtnclick('${encodeURIComponent(JSON.stringify(post))}'); event.stopPropagation();">
+//         Edit
+//       </button>
+//       <button class="btn btn-danger btn-sm" 
+//         onClick="DelitepostBtnclick('${encodeURIComponent(JSON.stringify(post))}'); event.stopPropagation();">
+//         Delete
+//       </button>
+//     </div>` : ``}
+//   </div>
+//   <div class="card-body" style="cursor:pointer" onClick="postClick(${post.id})">
+//     <img src=${post.image} alt="" class="w-100" />
+//     <h3>${postTitle}</h3>
+//     <p>${post.body}</p>
+//   </div>
+// </div>
+
+// `;
+
+   
+//    document.getElementById("user-posts").innerHTML+= content;
+//      let  currentPostTagId = `btn-tags-${post.id}`
+//       // document.getElementById(currentPostTagId).innerHTML = ""
+
+//     for (tag of post.tags){
+     
+  
+//       let tagontent = `
+
+//                     <button class="btn btn-sm rounded-5" style="background-color:gray;color:white" >
+//                       ${tag.name}
+//                      </button>
+                     
+//       `
+//        document.getElementById(currentPostTagId).innerHTML = tagontent ;
+//      }
+
+
+
+
+
+
+//     }
+  
+//   })
+//   .catch(function (error) {
+//     // handle error 
+//     console.log(error);
+//   })
+//   .finally(()=>{
+//   toggelloading(false)
+// })
+      
+//     }
+
+
+function DelitepostBtnclick(postObjet){
+  const post = JSON.parse(decodeURIComponent(postObjet));
+  document.getElementById("delete-post-id-input").value = post.id;
+  
+  const modalEl = document.getElementById("delete-post-modale");
+  bootstrap.Modal.getOrCreateInstance(modalEl).show();
+  modalEl.hide()
+  getPosts()
+  
+  
+}
+
+async function ConfirmePostDelete(){
+  const token = localStorage.getItem("token");
+  const postId = document.getElementById("delete-post-id-input").value;
+
+  if (!token) { alert("سجّلي دخول أولاً"); return; }
+  if (!postId) { alert("ما لقيت رقم البوست"); return; }
+
+  try {
+    await axios.delete(`https://tarmeezacademy.com/api/v1/posts/${postId}`, {
+      headers: { Authorization: Bearer `${token}` }
+    });
+
+    const modalEl = document.getElementById("delete-post-modale");
+    bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+
+    alert("تم حذف البوست بنجاح");
+    getPosts();
+  } catch (error) {
+    console.log(error);
+    alert("حدث خطأ أثناء الحذف");
+}
+}
+
+    function getUser(){
+      let id = getcurrentuserId()
+      
+      axios.get(`${basseUrl}/users/${id}`)
+      .then(function (response) {
+        let user = response.data.data;
+        document.getElementById("main-info-email").innerHTML = user.email
+        document.getElementById("main-info-name").innerHTML = user.name
+        document.getElementById("user-post-name").innerHTML = user.name
+        document.getElementById("main-info-username").innerHTML = user.username
+         document.getElementById("header-image").src = user.profile_image
+        // posts && comments count
+        document.getElementById("posts-count").innerHTML = user.posts_count
+        document.getElementById("comments-count").innerHTML = user.comments_count
+        
+       
+  })
+    }
+      
+
+logOut()
+loginbtnClicked()
+registerBtnClicked()
+createcommentclick()
+function editpostBtnclick(postObjet){
+  alert("plpkkjhg")
+  let post = JSON.parse(decodeURIComponent(postObjet))
+  let postId= document.getElementById("post-id-input").value = post.id
+   document.getElementById("post-modal-submet-btn").innerHTML ="upDate"
+       document.getElementById("post-modale-title").innerHTML ="Edit post"
+       document.getElementById("create-post-title-input").value =post.title 
+         document.getElementById("create-post-body-input").value =post.body
+       let postModal = new bootstrap.Modal(document.getElementById("create-post-modale"),{})
+    postModal.toggle()
+}
+
+function DelitepostBtnclick(postObjet){
+  const post = JSON.parse(decodeURIComponent(postObjet));
+  document.getElementById("delete-post-id-input").value = post.id;
+
+  const modalEl = document.getElementById("delete-post-modale");
+  bootstrap.Modal.getOrCreateInstance(modalEl).show();
+}
+async function ConfirmePostDelete(){
+  const token  = localStorage.getItem("token");
+  const postId = document.getElementById("delete-post-id-input").value;
+
+  if (!token) { showAlertt("سجّلي دخول أولاً", "danger"); return; }
+  if (!postId) { showAlertt("ما لقيت رقم البوست", "danger"); return; }
+
+  try {
+    await axios.delete(`https://tarmeezacademy.com/api/v1/posts/${postId}`, {
+      headers: {
+         Authorization: Bearer `${token}`
+       }
+    });
+
+    // سكّر المودال بشكل صحيح
+    const modalEl = document.getElementById("delete-post-modale");
+    bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+
+    showAlertt("تم حذف البوست بنجاح", "success");
+    getPosts(); // حدّث القائمة
+  } 
+  catch (error) {
+    const status = error?.response?.status;
+    if (status === 401)      showAlertt("انتهت الجلسة/توكن غير صالح", "danger");
+    else if (status === 403) showAlertt("ما عندك صلاحية حذف هذا البوست", "danger");
+    else if (status === 404) showAlertt("المنشور غير موجود", "warning");
+    else                     showAlertt("صار خطأ أثناء الحذف", "danger");
+    console.log(error?.response?.data || error);
+  } finally {
+    toggelloading(false);
+ };
+}
+
+
+function ConfirmePostDelete(){
+let token =  localStorage.getItem("token")
+  let postId = document.getElementById("delete-post-id-input").value
+    
+   
+       let  headeres ={
+        //  "Content-Type" : "multipart/form-data" ,
+        "authorization" : `Bearer ${token}` ,
+       }
+     
+       axios.delete(`https://tarmeezacademy.com/api/v1/posts/${postId}`,{
+       
+        headers : headeres
+       })
+       .then((response)=>{
+         
+          let  modal = document.getElementById("delete-post-id-input");     
+         let  modalIntance = bootstrap.Modal.getInstance(modal);
+         modalIntance.hide()
+         showAlertt("The Post Has Been Deleted Successfully " ,"Success")
+         getPosts()
+         
+       })
+      // 
+       .catch((error)=>{
+         console.log("the error is", error);
+         if (error.response) {
+         console.log("Error response data:", error.response.data);
+        }
+       })
+       .finally(()=>{
+           toggelloading(false)
+       })
+ }
+
+function addBtnClick(){
+     
+  let postId= document.getElementById("post-id-input").value =""
+   document.getElementById("post-modal-submet-btn").innerHTML ="Create"
+       document.getElementById("post-modale-title").innerHTML ="Create a new post"
+       document.getElementById("create-post-title-input").value =""
+         document.getElementById("create-post-body-input").value =""
+       let postModal = new bootstrap.Modal(document.getElementById("create-post-modale"),{})
+    postModal.toggle()  
+}
+
+function userClicked(userId){
+  
+   window.location = `myprofile.html?userid=${userId}`
+} 
+
+   function getcurrentUser(){
+    let user = null
+    let storagrUser = localStorage.getItem("user")
+  
+    if(storagrUser != null){
+      user = JSON.parse(storagrUser)
+     
+    }
+    return user
+   }
+      function postClick(postId){
+    
+    window.location = `postsDetails.html?postId=${postId}`
+   }
+
+</script>
+    </body>
+   </html>
